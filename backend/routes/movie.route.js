@@ -58,7 +58,11 @@ router.get("/popular", async (req, res) => {
       return res.status(404).json({ error: "No movies found" });
     }
 
-    const filteredMovies = data.results.map((movie) => ({
+    const englishMovies = data.results.filter(
+      (movie) => movie.original_language === "en"
+    );
+
+    const filteredMovies = englishMovies.map((movie) => ({
       id: movie.id,
       title: movie.original_title || "No title",
       overview: movie.overview || "No overview available",
@@ -73,6 +77,38 @@ router.get("/popular", async (req, res) => {
     res.status(200).json(filteredMovies);
   } catch (error) {
     console.error("Error in get popular movies", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/reccomand/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apiKey}&original_language=en&page=1`
+    );
+    const data = await response.json();
+
+    const englishMovies = data.results.filter(
+      (movie) => movie.original_language === "en"
+    );
+
+    const filteredMovies = englishMovies.map((movie) => ({
+      id: movie.id,
+      title: movie.original_title || "No title",
+      overview: movie.overview || "No overview available",
+      genres: movie.genre_ids || [],
+      popularity: movie.popularity || 0,
+      origin: movie.origin_country,
+      image: movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : null,
+      rating: movie.vote_average || 0,
+    }));
+
+    res.status(200).json(filteredMovies);
+  } catch (error) {
+    console.log("Error in reccomand route", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
