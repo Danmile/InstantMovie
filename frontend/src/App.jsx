@@ -5,6 +5,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <div className="bg-stone-600 p-[0.5px]"></div>
       <MovieGrid />
     </>
   );
