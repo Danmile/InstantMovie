@@ -5,6 +5,45 @@ dotenv.config();
 const router = express.Router();
 const apiKey = process.env.TMDB_API_KEY;
 
+const getTrailers = async (movies) => {
+  const enrichedMovies = await Promise.all(
+    movies.map(async (movie) => {
+      let trailer = null;
+
+      try {
+        const videoRes = await fetch(
+          `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}&language=en-US`
+        );
+        const videoData = await videoRes.json();
+        const found = videoData.results.find(
+          (v) => v.site === "YouTube" && v.type === "Trailer"
+        );
+
+        if (found) {
+          trailer = `https://www.youtube.com/watch?v=${found.key}`;
+        }
+      } catch (err) {
+        console.warn(`Failed to fetch trailer for movie ${movie.id}`, err);
+      }
+
+      return {
+        id: movie.id,
+        title: movie.original_title || "No title",
+        overview: movie.overview || "No overview available",
+        genres: movie.genre_ids || [],
+        popularity: movie.popularity || 0,
+        image: movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : null,
+        rating: movie.vote_average || 0,
+        trailer,
+      };
+    })
+  );
+
+  return enrichedMovies;
+};
+
 router.get("/find/:title", async (req, res) => {
   try {
     const title = encodeURIComponent(req.params.title);
@@ -62,19 +101,9 @@ router.get("/popular", async (req, res) => {
       (movie) => movie.original_language === "en"
     );
 
-    const filteredMovies = englishMovies.map((movie) => ({
-      id: movie.id,
-      title: movie.original_title || "No title",
-      overview: movie.overview || "No overview available",
-      genres: movie.genre_ids || [],
-      popularity: movie.popularity || 0,
-      image: movie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        : null,
-      rating: movie.vote_average || 0,
-    }));
+    const moviesWithTrailers = await getTrailers(englishMovies);
 
-    res.status(200).json(filteredMovies);
+    res.status(200).json(moviesWithTrailers);
   } catch (error) {
     console.error("Error in get popular movies", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -93,20 +122,9 @@ router.get("/reccomand/:id", async (req, res) => {
       (movie) => movie.original_language === "en"
     );
 
-    const filteredMovies = englishMovies.map((movie) => ({
-      id: movie.id,
-      title: movie.original_title || "No title",
-      overview: movie.overview || "No overview available",
-      genres: movie.genre_ids || [],
-      popularity: movie.popularity || 0,
-      origin: movie.origin_country,
-      image: movie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        : null,
-      rating: movie.vote_average || 0,
-    }));
+    const moviesWithTrailers = await getTrailers(englishMovies);
 
-    res.status(200).json(filteredMovies);
+    res.status(200).json(moviesWithTrailers);
   } catch (error) {
     console.log("Error in reccomand route", error);
     res.status(500).json({ error: "Internal Server Error" });
