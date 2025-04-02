@@ -91,8 +91,6 @@ router.get("/popular", async (req, res) => {
     }
 
     const data = await response.json();
-    console.log("API Response:", data);
-
     if (!data.results || data.results.length === 0) {
       return res.status(404).json({ error: "No movies found" });
     }
