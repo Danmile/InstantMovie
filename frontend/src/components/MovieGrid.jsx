@@ -99,6 +99,7 @@ function MovieGrid() {
             image={movie.image}
             overview={movie.overview}
             trailerUrl={movie.trailer}
+            movieRating={movie.rating}
           />
         ))}
       </div>
