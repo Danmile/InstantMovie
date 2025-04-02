@@ -83,10 +83,6 @@ const movies = [
 function MovieGrid() {
   return (
     <div className="p-6 bg-black min-h-screen">
-      <h1 className="text-white text-[50px] font-bold mb-6 text-center">
-        Most <span className="text-amber-400">Popular</span>
-      </h1>
-
       <div className="flex flex-wrap gap-8 justify-center space-x-25">
         {movies.map((movie, index) => (
           <MovieCard
