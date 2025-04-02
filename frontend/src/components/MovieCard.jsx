@@ -37,17 +37,27 @@ const MovieCard = ({ title, image, overview, trailerUrl }) => {
           {isOpen && (
             <div className="pb-4 text-white flex flex-col justify-center">
               <div className="aspect-video w-full overflow-hidden">
-                <iframe
-                  className="w-full h-full border-0"
-                  src={`https://www.youtube.com/embed/${getYouTubeID(
-                    trailerUrl
-                  )}?autoplay=1&mute=1&start=5&loop=1&controls=0&modestbranding=1&rel=0&playlist=${getYouTubeID(
-                    trailerUrl
-                  )}`}
-                  title="YouTube trailer"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                ></iframe>
+                {trailerUrl ? (
+                  <iframe
+                    className="w-full h-full border-0"
+                    src={`https://www.youtube.com/embed/${getYouTubeID(
+                      trailerUrl
+                    )}?autoplay=1&mute=1&start=5&loop=1&controls=0&modestbranding=1&rel=0&playlist=${getYouTubeID(
+                      trailerUrl
+                    )}`}
+                    title="YouTube trailer"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className="w-full h-full mt-5">
+                    <img
+                      src={image}
+                      alt={title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                )}
               </div>
               <h3 className="text-2xl font-bold mt-10 ml-4">{title}</h3>
               <p className="text-gray-300 text-[7px] m-4">{overview}</p>
