@@ -23,7 +23,7 @@ const MovieCard = ({ title, image, overview, trailerUrl, movieRating }) => {
       <div
         className={`${
           isOpen
-            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 max-w-xl h-max top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 max-w-xl h-max top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 will-change-transform"
             : "relative drop-shadow-[4px_2px_8px_rgba(255,255,255,0.4)]"
         } bg-neutral-800 rounded-xl overflow-hidden cursor-pointer transition-all duration-900 ease-in-out`}
         onClick={() => setIsOpen(!isOpen)}
@@ -40,6 +40,7 @@ const MovieCard = ({ title, image, overview, trailerUrl, movieRating }) => {
               <div className="aspect-video w-full overflow-hidden">
                 {trailerUrl ? (
                   <iframe
+                    loading="lazy"
                     className="w-full h-full border-0"
                     src={`https://www.youtube.com/embed/${getYouTubeID(
                       trailerUrl

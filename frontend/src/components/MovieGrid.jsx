@@ -90,7 +90,7 @@ function MovieGrid() {
   }, [getMostPopular]);
   return (
     <div className="p-6 bg-black min-h-screen">
-      <div className="flex flex-wrap gap-8 justify-center space-x-25">
+      <div className="flex flex-wrap gap-8 justify-center items-center space-x-25">
         {console.log(movies)}
         {movies.map((movie, index) => (
           <MovieCard
