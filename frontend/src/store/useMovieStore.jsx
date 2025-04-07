@@ -28,4 +28,17 @@ export const useMovieStore = create((set, get) => ({
       set({ movies: [] }); // safer fallback than null
     }
   },
+  searchForMovies: async (movie) => {
+    try {
+      const res = await axiosInstance.get(
+        `http://localhost:5001/api/movies/find/${movie}`
+      );
+      console.log("Full response from backend:", res.data);
+      set({ movies: res.data });
+      console.log("Search results:", get().movies);
+    } catch (error) {
+      console.log("Error in searchForMovies", error);
+      set({ movies: [] });
+    }
+  },
 }));
