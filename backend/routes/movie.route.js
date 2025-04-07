@@ -80,8 +80,9 @@ router.get("/find/:title", async (req, res) => {
 
 router.get("/popular", async (req, res) => {
   try {
+    const page = req.query.page;
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`
     );
     if (!response.ok) {
       console.error("Failed to fetch movies:", response.status);
