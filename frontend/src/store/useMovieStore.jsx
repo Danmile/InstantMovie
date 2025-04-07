@@ -16,6 +16,10 @@ export const useMovieStore = create((set, get) => ({
       newMovies = newMovies.filter(
         (newMovie) => !existingMovies.some((m) => m.title === newMovie.title)
       );
+      //Check if there is image
+      newMovies = newMovies.filter(
+        (movie) => movie.image !== null && movie.image !== undefined
+      );
 
       // Append to existing movies
       set({ movies: [...existingMovies, ...newMovies] });
