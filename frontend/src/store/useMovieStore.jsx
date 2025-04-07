@@ -3,14 +3,25 @@ import { axiosInstance } from "../lib/axios";
 
 export const useMovieStore = create((set, get) => ({
   movies: [],
+  page: 1,
 
-  getMostPopular: async () => {
+  getMostPopular: async (page) => {
     try {
-      const res = await axiosInstance.get("/movies/popular");
-      set({ movies: res.data });
+      const res = await axiosInstance.get(`/movies/popular?page=${page}`);
+      let newMovies = res.data;
+
+      const existingMovies = get().movies;
+
+      // Filter out movies that already exist
+      newMovies = newMovies.filter(
+        (newMovie) => !existingMovies.some((m) => m.title === newMovie.title)
+      );
+
+      // Append to existing movies
+      set({ movies: [...existingMovies, ...newMovies] });
     } catch (error) {
       console.log("Error in getMostPopular", error);
-      set({ movies: null });
+      set({ movies: [] }); // safer fallback than null
     }
   },
 }));
