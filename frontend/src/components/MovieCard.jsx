@@ -23,8 +23,8 @@ const MovieCard = ({ title, image, overview, trailerUrl, movieRating }) => {
       <div
         className={`${
           isOpen
-            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 max-w-xl h-max top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 will-change-transform"
-            : "relative drop-shadow-[4px_2px_8px_rgba(255,255,255,0.4)]"
+            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 max-w-xl h-max top-1/3 -translate-x-1 -translate-y-1 will-change-transform"
+            : "relative drop-shadow-[4px_2px_8px_rgba(255,255,255,0.4)] hover:scale-105"
         } bg-neutral-800 rounded-xl overflow-hidden cursor-pointer transition-all duration-900 ease-in-out`}
         onClick={() => setIsOpen(!isOpen)}
       >
