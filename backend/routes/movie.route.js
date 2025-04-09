@@ -61,17 +61,9 @@ router.get("/find/:title", async (req, res) => {
       return res.status(404).json({ error: "No movies found" });
     }
 
-    const filteredMovies = data.results.map((movie) => ({
-      id: movie.id,
-      title: movie.original_title,
-      overview: movie.overview,
-      genres: movie.genre_ids,
-      popularity: movie.popularity,
-      image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-      rating: movie.vote_average,
-    }));
+    const moviesWithTrailers = await getTrailers(data.results);
 
-    res.status(200).json(filteredMovies);
+    res.status(200).json(moviesWithTrailers);
   } catch (error) {
     console.error("Error in get", error);
     res.status(500).json({ error: "Internal Server Error" });
