@@ -58,14 +58,14 @@ router.get("/find/:title", async (req, res) => {
     const data = await response.json();
 
     if (!data.results || data.results.length === 0) {
-      return res.status(404).json({ error: "No movies found" });
+      return res.status(200).json([]);
     }
 
     const moviesWithTrailers = await getTrailers(data.results);
 
     res.status(200).json(moviesWithTrailers);
   } catch (error) {
-    console.error("Error in get", error);
+    console.error("Error in find route", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
