@@ -4,9 +4,19 @@ import { useMovieStore } from "../store/useMovieStore";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  const { searchMovies, searchForMovies } = useMovieStore();
+  const { searchMovies, searchForMovies, clearSearchResults } = useMovieStore();
 
-  console.log(searchMovies);
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (query.trim()) {
+        searchForMovies(query);
+      } else {
+        clearSearchResults();
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [query]);
 
   return (
     <div className="bg-black min-h-screen pt-10">
@@ -21,12 +31,6 @@ const SearchPage = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button
-          onClick={() => searchForMovies(query)}
-          className="bg-amber-400 px-6 py-3 rounded-xl text-black ml-4 hover:bg-amber-500 transition"
-        >
-          Search
-        </button>
       </div>
 
       <MovieGrid movies={searchMovies} />
