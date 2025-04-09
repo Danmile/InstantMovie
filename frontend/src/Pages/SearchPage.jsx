@@ -4,8 +4,10 @@ import { useMovieStore } from "../store/useMovieStore";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  console.log(query);
-  const { movies, searchForMovies } = useMovieStore();
+  const { searchMovies, searchForMovies } = useMovieStore();
+
+  console.log(searchMovies);
+
   return (
     <div className="bg-black min-h-screen pt-10">
       <h1 className="text-white text-[50px] font-bold mb-6 text-center">
@@ -27,7 +29,7 @@ const SearchPage = () => {
         </button>
       </div>
 
-      <MovieGrid movies={movies} />
+      <MovieGrid movies={searchMovies} />
     </div>
   );
 };

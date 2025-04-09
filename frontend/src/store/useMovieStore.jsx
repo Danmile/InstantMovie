@@ -4,6 +4,7 @@ import { axiosInstance } from "../lib/axios";
 export const useMovieStore = create((set, get) => ({
   movies: [],
   page: 1,
+  searchMovies: [],
 
   getMostPopular: async (page) => {
     try {
@@ -33,12 +34,21 @@ export const useMovieStore = create((set, get) => ({
       const res = await axiosInstance.get(
         `http://localhost:5001/api/movies/find/${movie}`
       );
-      console.log("Full response from backend:", res.data);
-      set({ movies: res.data });
-      console.log("Search results:", get().movies);
+      if (res.data) {
+        const filteredResults = res.data.filter(
+          (movie) => movie.image !== null && movie.image !== undefined
+        );
+        set({ searchMovies: filteredResults });
+      } else {
+        set({ searchMovies: [] });
+      }
     } catch (error) {
       console.log("Error in searchForMovies", error);
-      set({ movies: [] });
+      set({ searchMovies: [] });
     }
+  },
+
+  clearSearchResults: () => {
+    set({ searchMovies: [] });
   },
 }));
