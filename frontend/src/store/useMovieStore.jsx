@@ -34,7 +34,8 @@ export const useMovieStore = create((set, get) => ({
       const res = await axiosInstance.get(
         `http://localhost:5001/api/movies/find/${movie}`
       );
-      if (res.data) {
+
+      if (res.data && Array.isArray(res.data)) {
         const filteredResults = res.data.filter(
           (movie) => movie.image !== null && movie.image !== undefined
         );
@@ -43,8 +44,12 @@ export const useMovieStore = create((set, get) => ({
         set({ searchMovies: [] });
       }
     } catch (error) {
-      console.log("Error in searchForMovies", error);
-      set({ searchMovies: [] });
+      if (error.response && error.response.status === 404) {
+        // TMDB says: movie not found
+        set({ searchMovies: [] });
+      } else {
+        console.log("Unexpected error in searchForMovies:", error);
+      }
     }
   },
 
