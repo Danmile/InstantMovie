@@ -13,7 +13,7 @@ const SearchPage = () => {
       } else {
         clearSearchResults();
       }
-    }, 500);
+    }, 0);
 
     return () => clearTimeout(delayDebounce);
   }, [query]);

@@ -14,6 +14,7 @@ function MovieGrid({ movies = [] }) {
             overview={movie.overview}
             trailerUrl={movie.trailer}
             movieRating={movie.rating}
+            genres={movie.genres}
           />
         ))}
       </div>

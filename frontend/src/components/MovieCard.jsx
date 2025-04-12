@@ -1,7 +1,14 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
 
-const MovieCard = ({ title, image, overview, trailerUrl, movieRating }) => {
+const MovieCard = ({
+  title,
+  image,
+  overview,
+  trailerUrl,
+  movieRating,
+  genres,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const getYouTubeID = (url) => {
@@ -62,6 +69,7 @@ const MovieCard = ({ title, image, overview, trailerUrl, movieRating }) => {
                 )}
               </div>
               <h3 className="text-2xl font-bold mt-10 ml-4">{title}</h3>
+              <p className="text-[7px] mt-1 ml-4 text-gray-400">{genres}</p>
               <div className="ml-4">
                 <StarRatings
                   rating={movieRating / 2}

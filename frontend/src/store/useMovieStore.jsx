@@ -44,12 +44,8 @@ export const useMovieStore = create((set, get) => ({
         set({ searchMovies: [] });
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        // TMDB says: movie not found
-        set({ searchMovies: [] });
-      } else {
-        console.log("Unexpected error in searchForMovies:", error);
-      }
+      set({ searchMovies: [] });
+      console.log("Unexpected error in searchForMovies:", error);
     }
   },
 
