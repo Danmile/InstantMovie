@@ -1,17 +1,13 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
 import { Heart } from "lucide-react";
+import { useMovieStore } from "../store/useMovieStore";
 
-const MovieCard = ({
-  title,
-  image,
-  overview,
-  trailerUrl,
-  movieRating,
-  genres,
-}) => {
+const MovieCard = ({ movie }) => {
+  const { title, image, overview, trailer, rating, genres } = movie;
   const [isOpen, setIsOpen] = useState(false);
   const [liked, setLiked] = useState(false);
+  const { addFavMovies } = useMovieStore();
 
   const getYouTubeID = (url) => {
     const match = url.match(/(?:youtu\.be\/|v=)([^&]+)/);
@@ -49,6 +45,7 @@ const MovieCard = ({
             onClick={(e) => {
               e.stopPropagation(); // prevent triggering card open
               setLiked(!liked);
+              addFavMovies(movie);
             }}
             className={`absolute ${
               isOpen ? "top-85 right-5" : "top-2 right-2"
@@ -65,14 +62,14 @@ const MovieCard = ({
           {isOpen && (
             <div className="pb-4 text-white flex flex-col justify-center">
               <div className="aspect-video w-full overflow-hidden">
-                {trailerUrl ? (
+                {trailer ? (
                   <iframe
                     loading="lazy"
                     className="w-full h-full border-0"
                     src={`https://www.youtube.com/embed/${getYouTubeID(
-                      trailerUrl
+                      trailer
                     )}?autoplay=1&mute=1&start=5&loop=1&controls=0&modestbranding=1&rel=0&playlist=${getYouTubeID(
-                      trailerUrl
+                      trailer
                     )}`}
                     title="YouTube trailer"
                     allow="autoplay; encrypted-media"
@@ -92,7 +89,7 @@ const MovieCard = ({
               <p className="text-[7px] mt-1 ml-4 text-gray-400">{genres}</p>
               <div className="ml-4">
                 <StarRatings
-                  rating={movieRating / 2}
+                  rating={rating / 2}
                   starRatedColor="orange"
                   numberOfStars={5}
                   name="rating"

@@ -5,6 +5,19 @@ export const useMovieStore = create((set, get) => ({
   movies: [],
   page: 1,
   searchMovies: [],
+  favMovies: [],
+
+  addFavMovies: (movie) => {
+    try {
+      if (movie) {
+        const existingMovies = get().favMovies;
+        console.log(existingMovies);
+        set({ favMovies: [...existingMovies, movie] });
+      }
+    } catch (error) {
+      console.log("Error in getMostPopular", error);
+    }
+  },
 
   getMostPopular: async (page) => {
     try {
