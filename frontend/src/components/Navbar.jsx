@@ -20,6 +20,12 @@ const Navbar = () => {
       {/* Center Links */}
       <div className="absolute left-1/2 -translate-x-1/2 flex space-x-8">
         <Link
+          to={"/"}
+          className="text-white hover:text-amber-400 transition duration-300"
+        >
+          Most Popular
+        </Link>
+        <Link
           to={"/Recommended"}
           className="text-white hover:text-amber-400 transition duration-300"
         >

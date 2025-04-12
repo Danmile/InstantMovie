@@ -5,17 +5,25 @@ export const useMovieStore = create((set, get) => ({
   movies: [],
   page: 1,
   searchMovies: [],
-  favMovies: [],
+  favMovies: JSON.parse(localStorage.getItem("favorites")) || [],
 
   addFavMovies: (movie) => {
     try {
-      if (movie) {
-        const existingMovies = get().favMovies;
-        console.log(existingMovies);
-        set({ favMovies: [...existingMovies, movie] });
+      if (!movie) return;
+      let updatedMovies;
+      const existingMovies = get().favMovies;
+      const isAlreadyFav = existingMovies.some((m) => m.id === movie.id);
+
+      if (isAlreadyFav) {
+        updatedMovies = existingMovies.filter((m) => m.id !== movie.id);
+      } else {
+        updatedMovies = [...existingMovies, movie];
       }
+
+      set({ favMovies: updatedMovies });
+      localStorage.setItem("favorites", JSON.stringify(updatedMovies));
     } catch (error) {
-      console.log("Error in getMostPopular", error);
+      console.log("Error in addFavMovies", error);
     }
   },
 

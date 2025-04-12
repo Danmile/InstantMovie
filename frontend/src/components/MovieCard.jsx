@@ -6,13 +6,17 @@ import { useMovieStore } from "../store/useMovieStore";
 const MovieCard = ({ movie }) => {
   const { title, image, overview, trailer, rating, genres } = movie;
   const [isOpen, setIsOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const { addFavMovies } = useMovieStore();
+  // const [liked, setLiked] = useState(false);
+  const { addFavMovies, favMovies } = useMovieStore();
 
   const getYouTubeID = (url) => {
     const match = url.match(/(?:youtu\.be\/|v=)([^&]+)/);
     return match ? match[1] : null;
   };
+
+  const isLiked = useMovieStore((state) => {
+    return state.favMovies.some((fav) => fav.id === movie.id);
+  });
 
   return (
     <>
@@ -44,7 +48,6 @@ const MovieCard = ({ movie }) => {
           <button
             onClick={(e) => {
               e.stopPropagation(); // prevent triggering card open
-              setLiked(!liked);
               addFavMovies(movie);
             }}
             className={`absolute ${
@@ -54,7 +57,7 @@ const MovieCard = ({ movie }) => {
             <Heart
               size={isOpen ? 10 : 20}
               className={`transition-colors duration-600 ${
-                liked ? "text-red-500 fill-red-500" : "text-white"
+                isLiked ? "text-red-500 fill-red-500" : "text-white"
               }`}
             />
           </button>
