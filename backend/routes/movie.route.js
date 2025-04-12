@@ -5,6 +5,35 @@ dotenv.config();
 const router = express.Router();
 const apiKey = process.env.TMDB_API_KEY;
 
+const getGenres = (genres_ids) => {
+  const genres = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western",
+  };
+  if (!genres_ids) {
+    return [];
+  }
+  const movieGenres = genres_ids.map((id) => genres[id]).join(", ");
+  return movieGenres;
+};
+
 const getTrailers = async (movies) => {
   const enrichedMovies = await Promise.all(
     movies.map(async (movie) => {
@@ -30,7 +59,7 @@ const getTrailers = async (movies) => {
         id: movie.id,
         title: movie.original_title || "No title",
         overview: movie.overview || "No overview available",
-        genres: movie.genre_ids || [],
+        genres: getGenres(movie.genre_ids) || [],
         popularity: movie.popularity || 0,
         image: movie.poster_path
           ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -133,7 +162,7 @@ router.get("/:id", async (req, res) => {
       id: data.id,
       title: data.original_title,
       overview: data.overview,
-      genres: data.genres_ids,
+      genres: getGenres(data.genre_ids),
       popularity: data.popularity,
       image: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
       rating: data.vote_average,
