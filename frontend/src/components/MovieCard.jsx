@@ -1,5 +1,6 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
+import { Heart } from "lucide-react";
 
 const MovieCard = ({
   title,
@@ -10,6 +11,7 @@ const MovieCard = ({
   genres,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const getYouTubeID = (url) => {
     const match = url.match(/(?:youtu\.be\/|v=)([^&]+)/);
@@ -30,17 +32,35 @@ const MovieCard = ({
       <div
         className={`${
           isOpen
-            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 max-w-xl h-max top-1/3 -translate-x-1 -translate-y-1 will-change-transform"
+            ? "fixed z-50 transition-transform duration-900 origin-center sm:scale-100 md:scale-150 lg:scale-200 w-xl h-max top-1/3 -translate-x-1 -translate-y-1 will-change-transform"
             : "relative drop-shadow-[4px_2px_8px_rgba(255,255,255,0.4)] hover:scale-105"
         } bg-neutral-800 rounded-xl overflow-hidden cursor-pointer transition-all duration-900 ease-in-out`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex flex-col md:flex-row">
+        <div
+          className={`flex flex-col md:flex-row ${isOpen ? "" : "w-80 h-110"}`}
+        >
           <img
             src={image}
             alt={title}
-            className={`object-cover ${isOpen ? "hidden" : "w-60 h-80"}`}
+            className={`object-cover w-full h-full ${isOpen ? "hidden" : ""}`}
           />
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // prevent triggering card open
+              setLiked(!liked);
+            }}
+            className={`absolute ${
+              isOpen ? "top-85 right-5" : "top-2 right-2"
+            } p-1 bg-black/20 rounded-full transition-transform duration-200`}
+          >
+            <Heart
+              size={isOpen ? 10 : 20}
+              className={`transition-colors duration-600 ${
+                liked ? "text-red-500 fill-red-500" : "text-white"
+              }`}
+            />
+          </button>
 
           {isOpen && (
             <div className="pb-4 text-white flex flex-col justify-center">
@@ -68,7 +88,7 @@ const MovieCard = ({
                   </div>
                 )}
               </div>
-              <h3 className="text-2xl font-bold mt-10 ml-4">{title}</h3>
+              <h3 className="text-2xl font-bold mt-3 ml-4">{title}</h3>
               <p className="text-[7px] mt-1 ml-4 text-gray-400">{genres}</p>
               <div className="ml-4">
                 <StarRatings
