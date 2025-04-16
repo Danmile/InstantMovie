@@ -38,7 +38,6 @@ const getTrailers = async (movies) => {
   const enrichedMovies = await Promise.all(
     movies.map(async (movie) => {
       let trailer = null;
-
       try {
         const videoRes = await fetch(
           `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}&language=en-US`
@@ -66,6 +65,7 @@ const getTrailers = async (movies) => {
           : null,
         rating: movie.vote_average || 0,
         trailer,
+        year: parseInt(movie.release_date?.split("-")[0]),
       };
     })
   );
@@ -149,8 +149,13 @@ router.post("/reccomand/", async (req, res) => {
     const englishMovies = allMovies.filter(
       (movie) => movie.original_language === "en"
     );
+    // Filter out movies older than 2005
+    const filtered = englishMovies.filter((movie) => {
+      const year = parseInt(movie.release_date?.split("-")[0]);
+      return year >= 1995;
+    });
 
-    const moviesWithTrailers = await getTrailers(englishMovies);
+    const moviesWithTrailers = await getTrailers(filtered);
 
     res.status(200).json(moviesWithTrailers);
   } catch (error) {
