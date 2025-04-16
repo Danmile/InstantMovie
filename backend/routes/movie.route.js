@@ -130,17 +130,17 @@ router.get("/popular", async (req, res) => {
   }
 });
 
-router.get("/reccomand/", async (req, res) => {
+router.post("/reccomand/", async (req, res) => {
   try {
     const { movies } = req.body;
+    const { page } = req.query;
     const allMovies = [];
     for (const movie of movies) {
       const movieId = movie.id;
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}&original_language=en&page=1`
+        `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}&original_language=en&page=${page}`
       );
       const data = await response.json();
-      console.log(data);
       if (data.results) {
         allMovies.push(...data.results);
       }
