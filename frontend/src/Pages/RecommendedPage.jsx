@@ -38,7 +38,9 @@ const RecommendedPage = () => {
         ref={loaderRef}
         className="h-16 flex justify-center items-center mt-10"
       >
-        {loading && <p className="text-white text-sm">Loading more...</p>}
+        {loading && (
+          <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+        )}
       </div>
     </div>
   );
