@@ -6,6 +6,7 @@ export const useMovieStore = create((set, get) => ({
   page: 1,
   searchMovies: [],
   favMovies: JSON.parse(localStorage.getItem("favorites")) || [],
+  reccomandedMovies: [],
 
   addFavMovies: (movie) => {
     try {
@@ -72,5 +73,33 @@ export const useMovieStore = create((set, get) => ({
 
   clearSearchResults: () => {
     set({ searchMovies: [] });
+  },
+
+  getReccomandedMovies: async (page) => {
+    try {
+      const reccomended = get().favMovies;
+      const currentReccomanded = get().reccomandedMovies;
+      const res = await axiosInstance.post(
+        `http://localhost:5001/api/movies/reccomand/?page=${page}`,
+        { movies: reccomended }
+      );
+      let newMovies = res.data;
+      // Filter out movies that already exist
+      newMovies = newMovies.filter(
+        (newMovie) =>
+          !currentReccomanded.some((m) => m.title === newMovie.title)
+      );
+      //Check if there is image
+      newMovies = newMovies.filter(
+        (movie) => movie.image !== null && movie.image !== undefined
+      );
+      if (newMovies) {
+        set({ reccomandedMovies: [...currentReccomanded, ...newMovies] });
+      } else {
+        set({ reccomandedMovies: [] });
+      }
+    } catch (error) {
+      console.log("Unexpected error in searchForMovies:", error);
+    }
   },
 }));
