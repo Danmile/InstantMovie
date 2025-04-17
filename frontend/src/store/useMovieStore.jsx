@@ -53,9 +53,7 @@ export const useMovieStore = create((set, get) => ({
   },
   searchForMovies: async (movie) => {
     try {
-      const res = await axiosInstance.get(
-        `http://localhost:5001/api/movies/find/${movie}`
-      );
+      const res = await axiosInstance.get(`/movies/find/${movie}`);
 
       if (res.data && Array.isArray(res.data)) {
         const filteredResults = res.data.filter(
@@ -79,10 +77,9 @@ export const useMovieStore = create((set, get) => ({
     try {
       const reccomended = get().favMovies;
       const currentReccomanded = get().reccomandedMovies;
-      const res = await axiosInstance.post(
-        `http://localhost:5001/api/movies/reccomand/?page=${page}`,
-        { movies: reccomended }
-      );
+      const res = await axiosInstance.post(`/movies/reccomand/?page=${page}`, {
+        movies: reccomended,
+      });
       let newMovies = res.data;
       // Filter out movies that already exist
       newMovies = newMovies.filter(
