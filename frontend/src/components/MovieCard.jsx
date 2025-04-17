@@ -4,7 +4,7 @@ import { Heart } from "lucide-react";
 import { useMovieStore } from "../store/useMovieStore";
 
 const MovieCard = ({ movie }) => {
-  const { title, image, overview, trailer, rating, genres } = movie;
+  const { title, image, overview, trailer, rating, genres, year } = movie;
   const [isOpen, setIsOpen] = useState(false);
   // const [liked, setLiked] = useState(false);
   const { addFavMovies, favMovies } = useMovieStore();
@@ -89,7 +89,8 @@ const MovieCard = ({ movie }) => {
                 )}
               </div>
               <h3 className="text-2xl font-bold mt-3 ml-4">{title}</h3>
-              <p className="text-[7px] mt-1 ml-4 text-gray-400">{genres}</p>
+              <p className="text-[7px] ml-4 text-gray-400">{year}</p>
+              <p className="text-[7px] mt-3 ml-4 text-gray-400">{genres}</p>
               <div className="ml-4">
                 <StarRatings
                   rating={rating / 2}

@@ -1,14 +1,13 @@
 import React from "react";
 import logo from "../assets/Logo.png";
-import { LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="relative h-20 bg-black flex items-center justify-between px-6">
-      {/* Logo - Left */}
-      <div className="flex items-center">
-        <Link to={"/"}>
+    <div className="bg-black h-20 px-4 flex items-center justify-center md:justify-between relative">
+      {/* Logo on mobile: center | desktop: left */}
+      <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex md:items-center">
+        <Link to="/">
           <img
             src={logo}
             alt="Logo"
@@ -17,37 +16,28 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Center Links */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex space-x-8">
-        <Link
-          to={"/"}
-          className="text-white hover:text-amber-400 transition duration-300"
-        >
-          Most Popular
+      <div className="md:flex absolute left-1/2 -translate-x-1/2 space-x-9 mt-30 text-xs md:mt-0 md:text-base">
+        <Link to="/" className="text-white hover:text-amber-400 transition">
+          Popular
         </Link>
         <Link
-          to={"/Recommended"}
-          className="text-white hover:text-amber-400 transition duration-300"
+          to="/Recommended"
+          className="text-white hover:text-amber-400 transition"
         >
           Recommended
         </Link>
         <Link
           to="/favorites"
-          className="text-white hover:text-amber-400 transition duration-300"
+          className="text-white hover:text-amber-400 transition"
         >
           Favorites
         </Link>
         <Link
           to="/search"
-          className="text-white hover:text-amber-400 transition duration-300"
+          className="text-white hover:text-amber-400 transition"
         >
           Search
         </Link>
-      </div>
-
-      {/* Login Icon - Right */}
-      <div className="text-white hover:scale-110 transition-transform duration-200">
-        <LogIn size={26} color="orange" />
       </div>
     </div>
   );
