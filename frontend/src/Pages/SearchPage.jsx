@@ -26,7 +26,7 @@ const SearchPage = () => {
       <div className="flex justify-center my-8">
         <input
           type="text"
-          className="w-full max-w-xl px-6 py-3 rounded-xl bg-zinc-800 text-white text-lg placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 shadow-md"
+          className="w-[80%] md:w-full lg:w-full max-w-xl px-6 py-3 rounded-xl bg-zinc-800 text-white text-lg placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 shadow-md"
           placeholder="Search for a movie... "
           value={query}
           onChange={(e) => setQuery(e.target.value)}
