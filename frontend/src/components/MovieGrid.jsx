@@ -15,7 +15,7 @@ function MovieGrid({ movies = [] }) {
         showGrid ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="flex flex-wrap gap-8 justify-center items-center space-x-25">
+      <div className="flex flex-wrap gap-6 justify-center items-center space-x-25">
         {movies.map((movie, index) => (
           <MovieCard key={index} movie={movie} />
         ))}

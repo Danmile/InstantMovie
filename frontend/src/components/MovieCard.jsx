@@ -28,7 +28,7 @@ const MovieCard = ({ movie }) => {
       )}
 
       {/* Card Container to maintain grid space */}
-      <div className="relative w-full max-w-[160px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[220px] h-[240px] sm:h-[260px] md:h-[280px] lg:h-[300px] mx-auto">
+      <div className="relative w-full max-w-[130px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-[220px] h-[200px] sm:h-[260px] md:h-[280px] lg:h-[300px] mx-auto">
         <div
           className={`${
             isOpen
