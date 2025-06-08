@@ -42,12 +42,12 @@ InstantMovie is a fullstack movie recommendation web app. It delivers real-time,
 
    - For the client:
      ```bash
-     cd client
+     cd frontend
      npm install
      ```
    - For the server:
      ```bash
-     cd ../server
+     cd ../backend
      npm install
      ```
 
