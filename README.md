@@ -14,9 +14,10 @@ InstantMovie is a fullstack movie recommendation web app. It delivers real-time,
 **Frontend:**
 
 - React
-- JavaScript / TypeScript _(if used)_
-- CSS / Tailwind CSS / Bootstrap _(depending on styling library used)_
-- Axios or Fetch API
+- JavaScript
+- Tailwind CSS 
+- Axios 
+- Zustand
 
 **Backend:**
 
