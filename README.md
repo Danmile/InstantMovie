@@ -1,5 +1,8 @@
 # 🎬 InstantMovie
 
+LIVE DEMO: 
+
+-- https://instantmovie.onrender.com
 InstantMovie is a fullstack movie recommendation web app. It delivers real-time, personalized movie suggestions by fetching data from external APIs.
 
 ## 🚀 Features
